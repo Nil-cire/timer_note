@@ -58,7 +58,12 @@ class HomePageState extends State<HomePage> {
                     itemCount: viewModel.noteFiles.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTapUp: (tapUpDetails) {},
+                        onTapUp: (tapUpDetails) {
+                          Navigator.of(context).pushNamed(
+                              '/note_list',
+                              arguments: {'note_files': viewModel.noteFiles[index]}
+                          );
+                        },
                         child: Padding(
                           padding:
                               const EdgeInsets.all(MyDimension.mainPadding),
