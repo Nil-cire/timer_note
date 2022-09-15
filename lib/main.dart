@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer_note/data/entity/NoteEneity.dart';
+import 'package:timer_note/data/entity/NoteFileEntity.dart';
 import 'package:timer_note/ui/home_page/HomePage.dart';
 import 'package:timer_note/ui/home_page/HomePageViewModel.dart';
+import 'package:timer_note/ui/note_list/NoteListPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +35,12 @@ class MyApp extends StatelessWidget {
           child: const HomePage()
       ),
       routes: {
-        "/home": (context) => const HomePage()
+        "/home": (context) => const HomePage(),
+        "/note_list": (context) {
+          dynamic obj = ModalRoute.of(context)?.settings.arguments;
+          var noteFile = obj["note_files"];
+          return NoteListPage(noteFile);
+        }
       },
     );
   }
