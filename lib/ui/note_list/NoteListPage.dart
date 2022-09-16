@@ -36,7 +36,10 @@ class NoteListPageState extends State<NoteListPage> {
                     itemCount: vm.notes.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTapUp: (tapUpDetails) {},
+                        onTapUp: (tapUpDetails) {
+                          Navigator.of(context).pushNamed('/note_detail',
+                              arguments: {'note_detail': vm.notes[index]});
+                        },
                         child: Padding(
                           padding:
                               const EdgeInsets.all(MyDimension.mainPadding),
