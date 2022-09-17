@@ -4,6 +4,7 @@ import 'package:timer_note/data/entity/NoteEneity.dart';
 import 'package:timer_note/data/entity/NoteFileEntity.dart';
 import 'package:timer_note/ui/home_page/HomePage.dart';
 import 'package:timer_note/ui/home_page/HomePageViewModel.dart';
+import 'package:timer_note/ui/note_detail/NoteDetailPage.dart';
 import 'package:timer_note/ui/note_list/NoteListPage.dart';
 
 void main() {
@@ -40,6 +41,11 @@ class MyApp extends StatelessWidget {
           dynamic obj = ModalRoute.of(context)?.settings.arguments;
           var noteFile = obj["note_files"];
           return NoteListPage(noteFile);
+        },
+        "/note_detail": (context) {
+          dynamic obj = ModalRoute.of(context)?.settings.arguments;
+          var note = obj["note_detail"];
+          return NoteDetailPage(note);
         }
       },
     );

@@ -5,8 +5,52 @@ import '../../data/entity/NoteEneity.dart';
 
 class HomePageViewModel extends Cubit<HomePageViewModelState> {
   List<NoteFileEntity> noteFiles = [
-    NoteFileEntity("uuid1", "title1", [NoteEntity("uuid11", "name11"), NoteEntity("uuid111", "name111")]),
-    NoteFileEntity("uuid11", "title11", [NoteEntity("uuid22", "name22"), NoteEntity("uuid222", "name222")])
+    NoteFileEntity("uuid1", "title1",
+        [
+          NoteEntity(
+            "this.uuid",
+            "this.subject",
+            "this.content",
+            1000000,
+            "this.date",
+            "this.temperature",
+            "this.weather",
+            "this.score",
+          ),
+          NoteEntity(
+            "this.uuid",
+            "this.subject",
+            "this.content",
+            1000000,
+            "this.date",
+            "this.temperature",
+            "this.weather",
+            "this.score",
+          )
+        ]),
+    NoteFileEntity("uuid11", "title2",
+        [
+          NoteEntity(
+            "this.uuid",
+            "this.subject",
+            "this.content",
+            1000000,
+            "this.date",
+            "this.temperature",
+            "this.weather",
+            "this.score",
+          ),
+          NoteEntity(
+            "this.uuid",
+            "this.subject",
+            "this.content",
+            1000000,
+            "this.date",
+            "this.temperature",
+            "this.weather",
+            "this.score",
+          )
+        ])
   ]; //todo mock data
 
   HomePageViewModel() : super(HomePageViewModelState.init) {

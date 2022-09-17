@@ -22,7 +22,7 @@ class NoteListItemView extends StatelessWidget {
           padding: const EdgeInsets.all(MyDimension.itemMainPadding),
           color: Colors.blue,
           child: Center(
-            child: Text(note.name),
+            child: Text(note.subject),
           ),
         ),
       ),
