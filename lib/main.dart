@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timer_note/data/entity/NoteEneity.dart';
-import 'package:timer_note/data/entity/NoteFileEntity.dart';
+import 'package:timer_note/data/data_source/LocaleFileSource.dart';
+import 'package:timer_note/repo/LocalNoteRepo.dart';
 import 'package:timer_note/ui/home_page/HomePage.dart';
 import 'package:timer_note/ui/home_page/HomePageViewModel.dart';
 import 'package:timer_note/ui/note_detail/NoteDetailPage.dart';
 import 'package:timer_note/ui/note_list/NoteListPage.dart';
 
-void main() {
+import 'data/data_source/LocaleFileSource.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocaleFileSource.init();
   runApp(const MyApp());
 }
 
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-          create: (context) => HomePageViewModel(),
+          create: (context) => HomePageViewModel(LocalNoteRepo(LocaleFileSource.getInstance)),
           child: const HomePage()
       ),
       routes: {
