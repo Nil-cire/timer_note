@@ -1,15 +1,30 @@
-
 import 'package:bloc/bloc.dart';
-import 'package:timer_note/data/entity/NoteEneity.dart';
+import 'package:timer_note/data/entity/NoteEntity.dart';
+
+import '../../repo/AbstractNoteRepo.dart';
 
 class NoteListViewModel extends Cubit<NoteListViewModelState> {
+  String subjectUid;
+  AbstractNoteRepo abstractNoteRepo;
+  List<NoteEntity> notes = [];
 
-  List<NoteEntity> notes;
+  NoteListViewModel(this.subjectUid, this.abstractNoteRepo)
+      : super(NoteListViewModelState.init) {
+    getNotes();
+  }
 
-  NoteListViewModel(this.notes): super(NoteListViewModelState.init);
+  void getNotes() async {
+    notes = await abstractNoteRepo.getNotes(subjectUid);
+    emit(NoteListViewModelState.noteUpdate);
+  }
 
+  void addNote(NoteEntity noteEntity) async {
+    await abstractNoteRepo.addNote(subjectUid, noteEntity);
+    getNotes();
+  }
 }
 
 enum NoteListViewModelState {
-  init
+  init,
+  noteUpdate,
 }

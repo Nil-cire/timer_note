@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timer_note/data/entity/NoteEneity.dart';
+import 'package:timer_note/data/entity/NoteEntity.dart';
 import 'package:timer_note/ui/note_detail/NoteDetailViewModel.dart';
 
 class NoteDetailPage extends StatefulWidget {
@@ -72,8 +72,8 @@ class NoteDetailPageState extends State<NoteDetailPage> {
   List<Widget> buildExtraData(Map<String, String>? extraData) {
     List<Widget> extraDataViewList = [
       Text(vm.note.date),
-      Text(vm.note.temperature),
-      Text(vm.note.weather),
+      Text(vm.note.temperature ?? ""),
+      Text(vm.note.weather ?? ""),
       Text(vm.note.score)
     ];
     if (extraData != null) {

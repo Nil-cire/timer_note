@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:timer_note/data/entity/NoteEneity.dart';
+import 'package:timer_note/data/entity/NoteEntity.dart';
 
 import '../../value/MyDimension.dart';
 
