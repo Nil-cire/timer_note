@@ -53,12 +53,12 @@ class AddNoteDialog extends StatelessWidget {
                       hintText: MyString.addNoteContentHint),
                 ),
                 Row(
-
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
                       child: TextFormField(
                         controller: hourTextController,
+                        maxLength: 3,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteHourHint),
@@ -67,6 +67,7 @@ class AddNoteDialog extends StatelessWidget {
                     Flexible(
                       child: TextFormField(
                         controller: minuteTextController,
+                        maxLength: 2,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteMinuteHint),
@@ -75,6 +76,7 @@ class AddNoteDialog extends StatelessWidget {
                     Flexible(
                       child: TextFormField(
                         controller: secondTextController,
+                        maxLength: 2,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteSecondHint),
@@ -83,6 +85,7 @@ class AddNoteDialog extends StatelessWidget {
                     Flexible(
                       child: TextFormField(
                         controller: millisecondTextController,
+                        maxLength: 3,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteMillisecondHint),
