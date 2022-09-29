@@ -1,65 +1,96 @@
-import 'package:bloc/bloc.dart';
-import 'package:timer_note/data/entity/NoteFileEntity.dart';
+import 'dart:developer';
 
-import '../../data/entity/NoteEneity.dart';
+import 'package:bloc/bloc.dart';
+import 'package:timer_note/data/entity/SubjectEntity.dart';
+import 'package:timer_note/repo/AbstractNoteRepo.dart';
+
+import '../../data/entity/NoteEntity.dart';
 
 class HomePageViewModel extends Cubit<HomePageViewModelState> {
-  List<NoteFileEntity> noteFiles = [
-    NoteFileEntity("uuid1", "title1",
-        [
-          NoteEntity(
-            "this.uuid",
-            "this.subject",
-            "this.content",
-            1000000,
-            "this.date",
-            "this.temperature",
-            "this.weather",
-            "this.score",
-          ),
-          NoteEntity(
-            "this.uuid",
-            "this.subject",
-            "this.content",
-            1000000,
-            "this.date",
-            "this.temperature",
-            "this.weather",
-            "this.score",
-          )
-        ]),
-    NoteFileEntity("uuid11", "title2",
-        [
-          NoteEntity(
-            "this.uuid",
-            "this.subject",
-            "this.content",
-            1000000,
-            "this.date",
-            "this.temperature",
-            "this.weather",
-            "this.score",
-          ),
-          NoteEntity(
-            "this.uuid",
-            "this.subject",
-            "this.content",
-            1000000,
-            "this.date",
-            "this.temperature",
-            "this.weather",
-            "this.score",
-          )
-        ])
+
+  final AbstractNoteRepo _noteRepo;
+
+  List<SubjectEntity> noteFiles = [
+    // SubjectEntity("uuid1", "title1",
+    //     [
+    //       NoteEntity(
+    //         "this.uuid",
+    //         "this.subject",
+    //         "this.content",
+    //         1000000,
+    //         "this.date",
+    //         "this.temperature",
+    //         "this.weather",
+    //         "this.score",
+    //       ),
+    //       NoteEntity(
+    //         "this.uuid",
+    //         "this.subject",
+    //         "this.content",
+    //         1000000,
+    //         "this.date",
+    //         "this.temperature",
+    //         "this.weather",
+    //         "this.score",
+    //       )
+    //     ]),
+    // SubjectEntity("uuid11", "title2",
+    //     [
+    //       NoteEntity(
+    //         "this.uuid",
+    //         "this.subject",
+    //         "this.content",
+    //         1000000,
+    //         "this.date",
+    //         "this.temperature",
+    //         "this.weather",
+    //         "this.score",
+    //       ),
+    //       NoteEntity(
+    //         "this.uuid",
+    //         "this.subject",
+    //         "this.content",
+    //         1000000,
+    //         "this.date",
+    //         "this.temperature",
+    //         "this.weather",
+    //         "this.score",
+    //       )
+    //     ])
   ]; //todo mock data
 
-  HomePageViewModel() : super(HomePageViewModelState.init) {
-    getMainNotes();
+  HomePageViewModel(this._noteRepo) : super(HomePageViewModelState.init) {
+    _getSubjects();
   }
 
-  Future<void> getMainNotes() async {
-    emit(HomePageViewModelState.getMainNotesSuccess);
+  Future<void> _getSubjects() async {
+    noteFiles = await _noteRepo.getSubjects();
+    emit(HomePageViewModelState.subjectUpdate);
+    log("update subject success");
+  }
+
+  Future<bool> _addSubject(String title) async {
+    var uuid = DateTime.now().millisecondsSinceEpoch.toString();
+    SubjectEntity subjectEntity = SubjectEntity(uuid, title, []);
+    return await _noteRepo.addSubject(uuid, subjectEntity);
+  }
+
+  void addSubjectAndUpdate(String title) async {
+    var addSuccess = await _addSubject(title);
+    if (addSuccess) {
+      emit(HomePageViewModelState.addSuccess);
+      log("add subject success");
+      await _getSubjects();
+    } else {
+      emit(HomePageViewModelState.addFail);
+      log("add subject fail");
+    }
   }
 }
 
-enum HomePageViewModelState { init, getMainNotesSuccess }
+enum HomePageViewModelState {
+  init,
+  subjectUpdate,
+  addSuccess,
+  addFail,
+}
