@@ -70,7 +70,6 @@ class LocalNoteRepo extends AbstractNoteRepo {
 
     List<SubjectEntity> subjects = [];
     for (var info in subjectInfoList) {
-      log("sss info = $info");
       var json = jsonDecode(info);
       subjects.add(SubjectEntity.fromDto(SubjectDto.fromJson(json)));
     }

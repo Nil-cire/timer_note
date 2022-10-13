@@ -22,12 +22,10 @@ class LocaleFileSource {
 
   static Future<void> _initStoragePath() async {
     final directory = await getApplicationDocumentsDirectory();
-    dev.log("sss = ${directory.path}");
     storagePath = directory.path;
   }
 
   Future<Directory> _getSubjectDirectory() async {
-    dev.log("sss2 = $storagePath");
     return Directory("$storagePath/$appPath").create(recursive: true);
   }
 

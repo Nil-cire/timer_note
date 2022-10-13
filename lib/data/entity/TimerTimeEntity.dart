@@ -17,7 +17,6 @@ class TimerTimeEntity {
       int tenMilliSecond = int.parse(this.tenMilliSecond);
       time = (hour * 3600 + minute * 60 + second) * 1000 + tenMilliSecond;
     } catch (e) {
-      log("sss TimerTimeEntity = toMilliSec error");
     }
     return time;
   }
