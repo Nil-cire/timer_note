@@ -14,6 +14,7 @@ class TimerPage extends StatefulWidget {
 class TimerPageState extends State<TimerPage> {
   int oldTime = 0;
   late int time;
+  bool isTimerPause = true;
 
   int hour = 0;
   int minute = 1;
@@ -51,16 +52,26 @@ class TimerPageState extends State<TimerPage> {
                 children: [
                   Flexible(
                       child: IconButton(
-                    icon: const Icon(Icons.undo),
-                    onPressed: () {},
-                  )),
-                  Flexible(
-                      child: IconButton(
-                    icon: const Icon(Icons.play_arrow),
+                    icon: const Icon(Icons.replay),
                     onPressed: () {
-                      _startCountdown();
+                      _resetTime();
                     },
                   )),
+                  isTimerPause
+                      ? Flexible(
+                          child: IconButton(
+                          icon: const Icon(Icons.play_arrow),
+                          onPressed: () {
+                            _pauseOrResumeCountdown();
+                          },
+                        ))
+                      : Flexible(
+                          child: IconButton(
+                          icon: const Icon(Icons.pause),
+                          onPressed: () {
+                            _pauseOrResumeCountdown();
+                          },
+                        ))
                 ],
               )
             ],
@@ -106,24 +117,51 @@ class TimerPageState extends State<TimerPage> {
     }
   }
 
-  void _zeroTime() {
+  void _zeroDisplayTime() {
     hour = 0;
     minute = 0;
     second = 0;
     milliSecond = 0;
   }
 
-  void _startCountdown() async {
+  void _pauseOrResumeCountdown() {
+    if (isTimerPause) {
+      _startCountdown(time);
+    }
+    setTimerPause(!isTimerPause);
+  }
+
+  void _startCountdown(int remainTime) async {
     oldTime = DateTime.now().millisecondsSinceEpoch;
     Timer.periodic(const Duration(milliseconds: 20), (timer) {
       var newTime = DateTime.now().millisecondsSinceEpoch;
-      var currentCountdownTime = time - (newTime - oldTime);
+      var currentCountdownTime = remainTime - (newTime - oldTime);
+
+      if (isTimerPause) {
+        time = currentCountdownTime;
+        timer.cancel();
+      }
+
       if (currentCountdownTime < 0) {
-        _zeroTime();
+        setTimerPause(true);
+        _zeroDisplayTime();
         timer.cancel();
       } else {
         _emitTimeChange(currentCountdownTime);
       }
+    });
+  }
+
+  void _resetTime() async {
+    setTimerPause(true);
+    await Future.delayed(const Duration(microseconds: 300));
+    time = widget.countdownTime?.toTenMilliSec() ?? 0;
+    _emitTimeChange(time);
+  }
+
+  void setTimerPause(bool isPause) {
+    setState(() {
+      isTimerPause = isPause;
     });
   }
 }
