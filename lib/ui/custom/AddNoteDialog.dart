@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/NoteEntity.dart';
@@ -53,36 +55,42 @@ class AddNoteDialog extends StatelessWidget {
                       hintText: MyString.addNoteContentHint),
                 ),
                 Row(
-
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
                       child: TextFormField(
                         controller: hourTextController,
+                        maxLength: 3,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteHourHint),
                       ),
                     ),
+                    const Text(":"),
                     Flexible(
                       child: TextFormField(
                         controller: minuteTextController,
+                        maxLength: 2,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteMinuteHint),
                       ),
                     ),
+                    const Text(":"),
                     Flexible(
                       child: TextFormField(
                         controller: secondTextController,
+                        maxLength: 2,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteSecondHint),
                       ),
                     ),
+                    const Text(":"),
                     Flexible(
                       child: TextFormField(
                         controller: millisecondTextController,
+                        maxLength: 3,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             hintText: MyString.addNoteMillisecondHint),
@@ -99,13 +107,26 @@ class AddNoteDialog extends StatelessWidget {
 
                         var time = 0;
                         try {
-                          time = (int.parse(hourTextController.text) * 3600 +
-                                      int.parse(minuteTextController.text) *
-                                          60 +
-                                      int.parse(secondTextController.text)) *
+                          String hour = hourTextController.text.isEmpty
+                              ? "0"
+                              : hourTextController.text;
+                          String minute = minuteTextController.text.isEmpty
+                              ? "0"
+                              : minuteTextController.text;
+                          String second = secondTextController.text.isEmpty
+                              ? "0"
+                              : secondTextController.text;
+                          String milliSecond =
+                              millisecondTextController.text.isEmpty
+                                  ? "0"
+                                  : millisecondTextController.text;
+                          time = (int.parse(hour) * 3600 +
+                                      int.parse(minute) * 60 +
+                                      int.parse(second)) *
                                   1000 +
-                              int.parse(millisecondTextController.text);
+                              int.parse(milliSecond);
                         } catch (e) {
+                          log("sss = $e");
                           time = 0;
                         }
 

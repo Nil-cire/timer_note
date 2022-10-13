@@ -6,6 +6,7 @@ import 'package:timer_note/ui/home_page/HomePage.dart';
 import 'package:timer_note/ui/home_page/HomePageViewModel.dart';
 import 'package:timer_note/ui/note_detail/NoteDetailPage.dart';
 import 'package:timer_note/ui/note_list/NoteListPage.dart';
+import 'package:timer_note/ui/timer_page/TimerPage.dart';
 
 import 'data/data_source/LocaleFileSource.dart';
 
@@ -50,6 +51,11 @@ class MyApp extends StatelessWidget {
           dynamic obj = ModalRoute.of(context)?.settings.arguments;
           var note = obj["note_detail"];
           return NoteDetailPage(note);
+        },
+        "/timer": (context) {
+          dynamic obj = ModalRoute.of(context)?.settings.arguments;
+          var time = obj["time"];
+          return TimerPage(countdownTime: time);
         }
       },
     );

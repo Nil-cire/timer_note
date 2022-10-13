@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/NoteEntity.dart';
 import 'package:timer_note/ui/note_detail/NoteDetailViewModel.dart';
 
+import '../../data/entity/TimerTimeEntity.dart';
+
 class NoteDetailPage extends StatefulWidget {
   const NoteDetailPage(this.note, {Key? key}) : super(key: key);
 
@@ -31,10 +33,14 @@ class NoteDetailPageState extends State<NoteDetailPage> {
     //     extraTextControllers.add(TextEditingController(text: value));
     //   });
     // }
+    int time = vm.note.timeSecond;
 
-    int hour = vm.note.timeSecond / 60 ~/ 60;
-    int min = vm.note.timeSecond % 3600 ~/ 60;
-    int sec = (vm.note.timeSecond % 216000);
+    int milliSecond = time % 1000;
+    int totalSec = time ~/ 1000;
+    int hour = totalSec ~/ 3600;
+    totalSec -= hour * 3600;
+    int minute = totalSec ~/ 60;
+    int second = totalSec % 60;
 
     return Scaffold(
       appBar: AppBar(
@@ -46,8 +52,8 @@ class NoteDetailPageState extends State<NoteDetailPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(hour.toString()),
-              Text(min.toString()),
-              Text(sec.toString())
+              Text(minute.toString()),
+              Text(second.toString())
             ],
           ),
           Text(vm.note.content),
@@ -60,10 +66,14 @@ class NoteDetailPageState extends State<NoteDetailPage> {
           ),
           Container(
               child: ElevatedButton(
-                onPressed: () {},
-                child: const Text("Start"),
-              )
-          )
+            onPressed: () {
+              Navigator.of(context).pushNamed('/timer', arguments: {
+                'time': TimerTimeEntity(hour.toString(), minute.toString(),
+                    second.toString(), milliSecond.toString())
+              });
+            },
+            child: const Text("Start"),
+          ))
         ],
       ),
     );
