@@ -65,12 +65,15 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
 
   Future<void> _getSubjects() async {
     noteFiles = await _noteRepo.getSubjects();
-    emit(HomePageViewModelState.subjectUpdate);
+    _emitSubjectUpdate();
     log("update subject success");
   }
 
   Future<bool> _addSubject(String title) async {
-    var uuid = DateTime.now().millisecondsSinceEpoch.toString();
+    var uuid = DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString();
     SubjectEntity subjectEntity = SubjectEntity(uuid, title, []);
     return await _noteRepo.addSubject(uuid, subjectEntity);
   }
@@ -86,11 +89,18 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
       log("add subject fail");
     }
   }
+
+  void _emitSubjectUpdate() {
+    state == HomePageViewModelState.subjectUpdate
+        ? emit(HomePageViewModelState.subjectUpdate2)
+        : emit(HomePageViewModelState.subjectUpdate);
+  }
 }
 
 enum HomePageViewModelState {
   init,
   subjectUpdate,
+  subjectUpdate2,
   addSuccess,
   addFail,
 }
