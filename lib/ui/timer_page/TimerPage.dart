@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/TimerTimeEntity.dart';
 
+import '../custom/TimeUnitView.dart';
+
 class TimerPage extends StatefulWidget {
   const TimerPage({this.countdownTime, Key? key}) : super(key: key);
   final TimerTimeEntity? countdownTime;
@@ -30,50 +32,82 @@ class TimerPageState extends State<TimerPage> {
       body: Container(
         child: Center(
           child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Spacer(flex: 8,),
               Row(
                 children: [
-                  Flexible(child: Text(hour.toString())),
-                  Flexible(
-                      child:
-                          Text(minute > 10 ? minute.toString() : "0$minute")),
-                  Flexible(
-                      child:
-                          Text(second > 10 ? second.toString() : "0$second")),
-                  Flexible(
-                      child: Text(milliSecond > 100
-                          ? milliSecond.toString()
-                          : milliSecond > 10
-                              ? "0$milliSecond"
-                              : "00$milliSecond")),
+                  const Spacer(flex: 10,),
+                  TimeUnitVew(hour > 10 ? hour.toString() : "0$hour", "Hour"),
+                  const Spacer(flex: 3,),
+                  TimeUnitVew(minute > 10 ? minute.toString() : "0$minute", "Minute"),
+                  const Spacer(flex: 10,),
                 ],
               ),
+              Container(height: 40,),
               Row(
                 children: [
-                  Flexible(
-                      child: IconButton(
-                    icon: const Icon(Icons.replay),
-                    onPressed: () {
-                      _resetTime();
-                    },
-                  )),
-                  isTimerPause
-                      ? Flexible(
-                          child: IconButton(
-                          icon: const Icon(Icons.play_arrow),
-                          onPressed: () {
-                            _pauseOrResumeCountdown();
-                          },
-                        ))
-                      : Flexible(
-                          child: IconButton(
-                          icon: const Icon(Icons.pause),
-                          onPressed: () {
-                            _pauseOrResumeCountdown();
-                          },
-                        ))
+                  const Spacer(flex: 10,),
+                  TimeUnitVew(second > 10 ? second.toString() : "0$second", "Second"),
+                  const Spacer(flex: 3,),
+                  TimeUnitVew(milliSecond > 100
+                      ? milliSecond.toString()
+                      : milliSecond > 10
+                      ? "0$milliSecond"
+                      : "00$milliSecond", "MilliSecond"),
+                  const Spacer(flex: 10,),
                 ],
-              )
+              ),
+              // Row(
+              //   children: [
+              //     Flexible(child: Text(hour.toString())),
+              //     Flexible(
+              //         child:
+              //             Text(minute > 10 ? minute.toString() : "0$minute")),
+              //     Flexible(
+              //         child:
+              //             Text(second > 10 ? second.toString() : "0$second")),
+              //     Flexible(
+              //         child: Text(milliSecond > 100
+              //             ? milliSecond.toString()
+              //             : milliSecond > 10
+              //                 ? "0$milliSecond"
+              //                 : "00$milliSecond")),
+              //   ],
+              // ),
+              Container(
+                padding: const EdgeInsets.only(top: 40),
+                child: Row(
+                  children: [
+                    const Spacer(flex: 10,),
+                    IconButton(
+                      icon: const Icon(Icons.replay),
+                      iconSize: 40,
+                      onPressed: () {
+                    _resetTime();
+                      },
+                    ),
+                    Container(width: 40,),
+                    isTimerPause
+                        ? IconButton(
+                        icon: const Icon(Icons.play_arrow),
+                        iconSize: 40,
+                        onPressed: () {
+                          _pauseOrResumeCountdown();
+                        },
+                          )
+                        : IconButton(
+                        icon: const Icon(Icons.pause),
+                        iconSize: 40,
+                        onPressed: () {
+                          _pauseOrResumeCountdown();
+                        },
+                          ),
+                    const Spacer(flex: 10,),
+                  ],
+                ),
+              ),
+              const Spacer(flex: 10,),
             ],
           ),
         ),
