@@ -4,8 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:timer_note/data/entity/SubjectEntity.dart';
 import 'package:timer_note/repo/AbstractNoteRepo.dart';
 
-import '../../data/entity/NoteEntity.dart';
-
 class HomePageViewModel extends Cubit<HomePageViewModelState> {
 
   final AbstractNoteRepo _noteRepo;
@@ -65,8 +63,8 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
 
   Future<void> _getSubjects() async {
     noteFiles = await _noteRepo.getSubjects();
+    noteFiles.sort((a, b) => b.uuid.compareTo(a.uuid)); // new (larger num) first
     _emitSubjectUpdate();
-    log("update subject success");
   }
 
   Future<bool> _addSubject(String title) async {
@@ -82,11 +80,9 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
     var addSuccess = await _addSubject(title);
     if (addSuccess) {
       emit(HomePageViewModelState.addSuccess);
-      log("add subject success");
       await _getSubjects();
     } else {
       emit(HomePageViewModelState.addFail);
-      log("add subject fail");
     }
   }
 
@@ -95,6 +91,26 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
         ? emit(HomePageViewModelState.subjectUpdate2)
         : emit(HomePageViewModelState.subjectUpdate);
   }
+
+  void sortSubjects(SubjectsSortType subjectsSortType) {
+    switch (subjectsSortType) {
+      case SubjectsSortType.title: {
+        noteFiles.sort((a, b) => a.title.compareTo(b.title));
+        _emitSubjectUpdate();
+        break;
+      }
+      case SubjectsSortType.createTime: {
+        noteFiles.sort((a, b) => b.uuid.compareTo(a.uuid));
+        _emitSubjectUpdate();
+        break;
+      }
+    }
+  }
+}
+
+enum SubjectsSortType {
+  title,
+  createTime
 }
 
 enum HomePageViewModelState {

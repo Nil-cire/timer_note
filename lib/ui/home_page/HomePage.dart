@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer_note/value/MyString.dart';
@@ -25,6 +27,33 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text(MyString.homeTitle),
         actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.sort),
+            itemBuilder: (context) {
+              var index = -1;
+              List<String> optionList = ["Title", "Create Time"];
+              return optionList.map((option) {
+                index ++;
+                return PopupMenuItem(
+                  value: index,
+                  child: Text(option),
+                );
+              }).toList();
+            },
+            onSelected: (value) {
+              switch (value) {
+                case 0: {
+                  viewModel.sortSubjects(SubjectsSortType.title);
+                  break;
+                }
+                case 1: {
+                  viewModel.sortSubjects(SubjectsSortType.createTime);
+                  break;
+                }
+                default: {}
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(
               Icons.search,
