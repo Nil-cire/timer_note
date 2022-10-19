@@ -4,6 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:timer_note/data/entity/SubjectEntity.dart';
 import 'package:timer_note/repo/AbstractNoteRepo.dart';
 
+import '../../data/data_source/SharedPreferenceManager.dart';
+import '../../data/entity/NoteEntity.dart';
+
 class HomePageViewModel extends Cubit<HomePageViewModelState> {
 
   final AbstractNoteRepo _noteRepo;
@@ -57,13 +60,33 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
     //     ])
   ]; //todo mock data
 
+  SubjectEntity? recentSubject;
+
   HomePageViewModel(this._noteRepo) : super(HomePageViewModelState.init) {
-    _getSubjects();
+    getSubjects();
   }
 
-  Future<void> _getSubjects() async {
+  Future<void> getSubjects() async {
     noteFiles = await _noteRepo.getSubjects();
+    List<List<NoteEntity>> subjectNoteCount = [];
+    for (var subject in noteFiles) {
+      List<NoteEntity> notes = await _noteRepo.getNotes(subject.uuid);
+      subjectNoteCount.add(notes);
+    }
+    for (int i = 0; i < subjectNoteCount.length; i++){
+      noteFiles[i].notes.addAll(subjectNoteCount[i]);
+    }
     noteFiles.sort((a, b) => b.uuid.compareTo(a.uuid)); // new (larger num) first
+
+    var recentSubjectUid = await _getRecentSubjectUid();
+    recentSubject = null;
+    for (var element in noteFiles) {
+      if (element.uuid == recentSubjectUid) {
+        recentSubject = element;
+        break;
+      }
+    }
+
     _emitSubjectUpdate();
   }
 
@@ -80,7 +103,7 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
     var addSuccess = await _addSubject(title);
     if (addSuccess) {
       emit(HomePageViewModelState.addSuccess);
-      await _getSubjects();
+      await getSubjects();
     } else {
       emit(HomePageViewModelState.addFail);
     }
@@ -90,6 +113,23 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
     state == HomePageViewModelState.subjectUpdate
         ? emit(HomePageViewModelState.subjectUpdate2)
         : emit(HomePageViewModelState.subjectUpdate);
+  }
+
+  Future<String?> _getRecentSubjectUid() async {
+    return await SharedPreferenceManager.getRecentSubjectUid();
+  }
+
+  Future<bool> setRecentSubjectUid(String subjectUid) async {
+    await SharedPreferenceManager.setRecentSubjectUid(subjectUid);
+    recentSubject = null;
+    for (var element in noteFiles) {
+      if (element.uuid == subjectUid) {
+        recentSubject = element;
+        break;
+      }
+    }
+    _emitSubjectUpdate();
+    return true;
   }
 
   void sortSubjects(SubjectsSortType subjectsSortType) {

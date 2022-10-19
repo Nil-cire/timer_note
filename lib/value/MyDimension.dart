@@ -6,6 +6,6 @@ class MyDimension {
   static const itemMainPadding = 16.0;
 
   // fontSize
-  static const fontSizeItemTitle = 20.0;
+  static const fontSizeItemTitle = 22.0;
   static const fontSizeItemContent = 18.0;
 }
