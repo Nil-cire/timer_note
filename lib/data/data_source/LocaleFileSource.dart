@@ -131,4 +131,24 @@ class LocaleFileSource {
       return false;
     }
   }
+
+  Future<bool> deleteSubject(String subjectUid) async {
+    try {
+      File file = await _getSubjectFile(subjectUid);
+      file.delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteNotes(String subjectUid) async {
+    try {
+      Directory? directory = await _getNoteDirectory(subjectUid);
+      directory?.delete(recursive: true);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

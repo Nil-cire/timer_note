@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer_note/value/MyString.dart';
@@ -128,7 +126,7 @@ class HomePageState extends State<HomePage> {
                                         left: MyDimension.mainPadding,
                                         top: MyDimension.mainPadding,
                                         right: MyDimension.mainPadding),
-                                    child: HomeNoteView(viewModel.recentSubject!),
+                                    child: HomeNoteView(viewModel.recentSubject!, (uid) {viewModel.deleteSubject(uid);}),
                                   ),
                                 )
                               ],
@@ -147,12 +145,14 @@ class HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: viewModel.noteFiles.length,
                             itemBuilder: (context, index) {
+                              var subject = viewModel.noteFiles[index];
+                              var uid = subject.uuid;
                               return GestureDetector(
                                 onTapUp: (tapUpDetails) {
                                   viewModel.setRecentSubjectUid(viewModel.noteFiles[index].uuid);
                                   Navigator.of(context).pushNamed('/note_list',
                                       arguments: {
-                                        'note_files': viewModel.noteFiles[index]
+                                        'note_files': subject
                                       });
                                 },
                                 child: Padding(
@@ -160,7 +160,8 @@ class HomePageState extends State<HomePage> {
                                       left: MyDimension.mainPadding,
                                       top: MyDimension.mainPadding,
                                       right: MyDimension.mainPadding),
-                                  child: HomeNoteView(viewModel.noteFiles[index]),
+                                  child: HomeNoteView(subject, (uid){viewModel.deleteSubject(uid);}
+                                  ),
                                 ),
                               );
                             }),

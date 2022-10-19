@@ -92,6 +92,14 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
     _emitSubjectUpdate();
   }
 
+  Future<bool> deleteSubject(String subjectUid) async {
+    bool success = await _noteRepo.deleteSubject(subjectUid);
+    if (success) {
+      getSubjects();
+    }
+    return success;
+  }
+
   Future<bool> _addSubject(String title) async {
     var uuid = DateTime
         .now()

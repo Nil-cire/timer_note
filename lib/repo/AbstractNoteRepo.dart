@@ -9,7 +9,7 @@ abstract class AbstractNoteRepo {
 
   Future<List<SubjectEntity>> getSubjects();
   Future<bool> addSubject(String subjectUid, SubjectEntity subject);
-  Future<bool> deleteSubject();
+  Future<bool> deleteSubject(String subjectUid);
 
   Future<List<NoteEntity>> getNotes(String subjectUid);
   Future<bool> addNote(String subjectUid, NoteEntity note);
