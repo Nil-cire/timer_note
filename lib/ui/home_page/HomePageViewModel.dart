@@ -61,6 +61,8 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
   ]; //todo mock data
 
   SubjectEntity? recentSubject;
+  int timeSort = 0;
+  int titleSort = 0;
 
   HomePageViewModel(this._noteRepo) : super(HomePageViewModelState.init) {
     getSubjects();
@@ -135,13 +137,27 @@ class HomePageViewModel extends Cubit<HomePageViewModelState> {
   void sortSubjects(SubjectsSortType subjectsSortType) {
     switch (subjectsSortType) {
       case SubjectsSortType.title: {
-        noteFiles.sort((a, b) => a.title.compareTo(b.title));
-        _emitSubjectUpdate();
+        if (titleSort == 0) {
+          noteFiles.sort((a, b) => a.title.compareTo(b.title));
+          _emitSubjectUpdate();
+          titleSort = 1;
+        } else {
+          noteFiles.sort((a, b) => b.title.compareTo(a.title));
+          _emitSubjectUpdate();
+          titleSort = 0;
+        }
         break;
       }
       case SubjectsSortType.createTime: {
-        noteFiles.sort((a, b) => b.uuid.compareTo(a.uuid));
-        _emitSubjectUpdate();
+        if (timeSort == 0) {
+          noteFiles.sort((a, b) => b.uuid.compareTo(a.uuid));
+          _emitSubjectUpdate();
+          timeSort = 1;
+        } else {
+          noteFiles.sort((a, b) => a.uuid.compareTo(b.uuid));
+          _emitSubjectUpdate();
+          timeSort = 0;
+        }
         break;
       }
     }
