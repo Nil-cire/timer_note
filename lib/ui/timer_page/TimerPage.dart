@@ -187,6 +187,7 @@ class TimerPageState extends State<TimerPage> {
   }
 
   void _resetTime() async {
+    if (!isTimerPause) return;
     setTimerPause(true);
     await Future.delayed(const Duration(microseconds: 300));
     time = widget.countdownTime?.toTenMilliSec() ?? 0;
