@@ -38,9 +38,9 @@ class TimerPageState extends State<TimerPage> {
               Row(
                 children: [
                   const Spacer(flex: 10,),
-                  TimeUnitVew(hour > 10 ? hour.toString() : "0$hour", "Hour"),
+                  TimeUnitVew(hour >= 10 ? hour.toString() : "0$hour", "Hour"),
                   const Spacer(flex: 3,),
-                  TimeUnitVew(minute > 10 ? minute.toString() : "0$minute", "Minute"),
+                  TimeUnitVew(minute >= 10 ? minute.toString() : "0$minute", "Minute"),
                   const Spacer(flex: 10,),
                 ],
               ),
@@ -48,11 +48,11 @@ class TimerPageState extends State<TimerPage> {
               Row(
                 children: [
                   const Spacer(flex: 10,),
-                  TimeUnitVew(second > 10 ? second.toString() : "0$second", "Second"),
+                  TimeUnitVew(second >= 10 ? second.toString() : "0$second", "Second"),
                   const Spacer(flex: 3,),
                   TimeUnitVew(milliSecond > 100
                       ? milliSecond.toString()
-                      : milliSecond > 10
+                      : milliSecond >= 10
                       ? "0$milliSecond"
                       : "00$milliSecond", "MilliSecond"),
                   const Spacer(flex: 10,),
