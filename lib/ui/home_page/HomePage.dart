@@ -25,6 +25,33 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text(MyString.homeTitle),
         actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.sort),
+            itemBuilder: (context) {
+              var index = -1;
+              List<String> optionList = ["Title", "Create Time"];
+              return optionList.map((option) {
+                index ++;
+                return PopupMenuItem(
+                  value: index,
+                  child: Text(option),
+                );
+              }).toList();
+            },
+            onSelected: (value) {
+              switch (value) {
+                case 0: {
+                  viewModel.sortSubjects(SubjectsSortType.title);
+                  break;
+                }
+                case 1: {
+                  viewModel.sortSubjects(SubjectsSortType.createTime);
+                  break;
+                }
+                default: {}
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(
               Icons.search,
@@ -52,6 +79,7 @@ class HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
+        padding: const EdgeInsets.only(bottom: MyDimension.mainPadding),
         child: BlocBuilder<HomePageViewModel, HomePageViewModelState>(
           bloc: viewModel,
           buildWhen: (context, state) {
@@ -70,25 +98,76 @@ class HomePageState extends State<HomePage> {
                     child: Text(MyString.noSubject),
                   );
                 } else {
-                  return ListView.builder(
-                      itemCount: viewModel.noteFiles.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTapUp: (tapUpDetails) {
-                            Navigator.of(context).pushNamed('/note_list',
-                                arguments: {
-                                  'note_files': viewModel.noteFiles[index]
-                                });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: MyDimension.mainPadding,
-                                top: MyDimension.mainPadding,
-                                right: MyDimension.mainPadding),
-                            child: HomeNoteView(viewModel.noteFiles[index]),
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        viewModel.recentSubject != null ?
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MyDimension.mainPadding,
+                                      top: MyDimension.mainPadding,
+                                      right: MyDimension.mainPadding
+                                  ),
+                                  child: Text("Recent"),
+                                ),
+                                GestureDetector(
+                                  onTapUp: (tapUpDetails) {
+                                    Navigator.of(context).pushNamed('/note_list',
+                                        arguments: {
+                                          'note_files': viewModel.recentSubject
+                                        });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: MyDimension.mainPadding,
+                                        top: MyDimension.mainPadding,
+                                        right: MyDimension.mainPadding),
+                                    child: HomeNoteView(viewModel.recentSubject!, (uid) {viewModel.deleteSubject(uid);}),
+                                  ),
+                                )
+                              ],
+                            )
+                        : Container(),
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              left: MyDimension.mainPadding,
+                              top: MyDimension.mainPadding,
+                              right: MyDimension.mainPadding
                           ),
-                        );
-                      });
+                          child: Text("All"),
+                        ),
+                        ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: viewModel.noteFiles.length,
+                            itemBuilder: (context, index) {
+                              var subject = viewModel.noteFiles[index];
+                              var uid = subject.uuid;
+                              return GestureDetector(
+                                onTapUp: (tapUpDetails) {
+                                  viewModel.setRecentSubjectUid(viewModel.noteFiles[index].uuid);
+                                  Navigator.of(context).pushNamed('/note_list',
+                                      arguments: {
+                                        'note_files': subject
+                                      });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: MyDimension.mainPadding,
+                                      top: MyDimension.mainPadding,
+                                      right: MyDimension.mainPadding),
+                                  child: HomeNoteView(subject, (uid){viewModel.deleteSubject(uid);}
+                                  ),
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                  );
                 }
               default:
                 return Container();

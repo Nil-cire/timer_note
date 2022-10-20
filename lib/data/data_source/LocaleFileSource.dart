@@ -22,12 +22,10 @@ class LocaleFileSource {
 
   static Future<void> _initStoragePath() async {
     final directory = await getApplicationDocumentsDirectory();
-    dev.log("sss = ${directory.path}");
     storagePath = directory.path;
   }
 
   Future<Directory> _getSubjectDirectory() async {
-    dev.log("sss2 = $storagePath");
     return Directory("$storagePath/$appPath").create(recursive: true);
   }
 
@@ -128,6 +126,26 @@ class LocaleFileSource {
     try {
       File subjectFile = await _getSubjectFile(subjectUid);
       subjectFile.writeAsString(data);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteSubject(String subjectUid) async {
+    try {
+      File file = await _getSubjectFile(subjectUid);
+      file.delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteNotes(String subjectUid) async {
+    try {
+      Directory? directory = await _getNoteDirectory(subjectUid);
+      directory?.delete(recursive: true);
       return true;
     } catch (e) {
       return false;

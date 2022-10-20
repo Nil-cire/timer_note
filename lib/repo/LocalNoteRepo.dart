@@ -47,9 +47,16 @@ class LocalNoteRepo extends AbstractNoteRepo {
   }
 
   @override
-  Future<bool> deleteSubject() {
-    // TODO: implement deleteSubject
-    throw UnimplementedError();
+  Future<bool> deleteSubject(String subjectUid) async {
+    try {
+      await localeFileSource.deleteSubject(subjectUid);
+      await localeFileSource.deleteNotes(subjectUid);
+      log('sss success');
+      return true;
+    } catch(e) {
+      log('sss error = $e');
+      return false;
+    }
   }
 
   @override
@@ -70,7 +77,6 @@ class LocalNoteRepo extends AbstractNoteRepo {
 
     List<SubjectEntity> subjects = [];
     for (var info in subjectInfoList) {
-      log("sss info = $info");
       var json = jsonDecode(info);
       subjects.add(SubjectEntity.fromDto(SubjectDto.fromJson(json)));
     }

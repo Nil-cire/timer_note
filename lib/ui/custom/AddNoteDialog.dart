@@ -126,7 +126,6 @@ class AddNoteDialog extends StatelessWidget {
                                   1000 +
                               int.parse(milliSecond);
                         } catch (e) {
-                          log("sss = $e");
                           time = 0;
                         }
 
