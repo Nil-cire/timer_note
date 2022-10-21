@@ -68,6 +68,7 @@ class NoteDetailPageState extends State<NoteDetailPage> {
               child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushNamed('/timer', arguments: {
+                'note': widget.note,
                 'time': TimerTimeEntity(hour.toString(), minute.toString(),
                     second.toString(), milliSecond.toString())
               });

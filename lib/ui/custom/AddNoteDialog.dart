@@ -8,8 +8,9 @@ import 'package:timer_note/value/MyDimension.dart';
 import '../../value/MyString.dart';
 
 class AddNoteDialog extends StatelessWidget {
-  const AddNoteDialog(this.onConfirm, {Key? key}) : super(key: key);
+  const AddNoteDialog(this.subjectUid, this.onConfirm, {Key? key}) : super(key: key);
   final Function(NoteEntity) onConfirm;
+  final String subjectUid;
 
   @override
   Widget build(BuildContext context) {
@@ -134,13 +135,15 @@ class AddNoteDialog extends StatelessWidget {
 
                         NoteEntity noteEntity = NoteEntity(
                             uid,
+                            subjectUid,
                             titleTextController.text,
                             contentTextController.text,
                             time,
                             date,
                             null,
                             null,
-                            "0");
+                            "0",
+                            []);
                         onConfirm.call(noteEntity);
                         Navigator.of(context).pop();
                       }

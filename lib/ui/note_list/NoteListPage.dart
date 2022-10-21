@@ -39,9 +39,10 @@ class NoteListPageState extends State<NoteListPage> {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return AddNoteDialog((note) {
-                      vm.addNote(note);
-                    });
+                    return AddNoteDialog(
+                      widget.subjectInfo.uuid,
+                      (note) {vm.addNote(note);}
+                    );
                   });
             },
           )

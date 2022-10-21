@@ -6,6 +6,7 @@ part 'NoteDto.g.dart';
 @JsonSerializable(explicitToJson: true)
 class NoteDto {
   String uuid;
+  String subjectUid;
   String subject;
   String content;
   int timeSecond;
@@ -13,10 +14,12 @@ class NoteDto {
   String? temperature;
   String? weather;
   String score;
+  List<int> scoreHistory;
   Map<String, String>? customData;
 
   NoteDto(
       this.uuid,
+      this.subjectUid,
       this.subject,
       this.content,
       this.timeSecond,
@@ -24,6 +27,7 @@ class NoteDto {
       this.temperature,
       this.weather,
       this.score,
+      this.scoreHistory,
       {this.customData}
       );
 

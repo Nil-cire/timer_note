@@ -3,18 +3,25 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/TimerTimeEntity.dart';
 
+import '../../data/data_source/LocaleFileSource.dart';
+import '../../data/entity/NoteEntity.dart';
+import '../../repo/LocalNoteRepo.dart';
 import '../custom/TimeUnitView.dart';
 import 'ScoreDialog.dart';
+import 'TimerPageViewModel.dart';
 
 class TimerPage extends StatefulWidget {
-  const TimerPage({this.countdownTime, Key? key}) : super(key: key);
+  const TimerPage(this.noteEntity,
+      {this.countdownTime, Key? key}) : super(key: key);
   final TimerTimeEntity? countdownTime;
+  final NoteEntity noteEntity;
 
   @override
   State<TimerPage> createState() => TimerPageState();
 }
 
 class TimerPageState extends State<TimerPage> {
+  late TimerPageViewModel vm;
   int oldTime = 0;
   late int time;
   bool isTimerPause = true;
@@ -26,6 +33,9 @@ class TimerPageState extends State<TimerPage> {
 
   @override
   Widget build(BuildContext context) {
+    vm = TimerPageViewModel(widget.noteEntity,
+        LocalNoteRepo(LocaleFileSource.getInstance));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Timer"),

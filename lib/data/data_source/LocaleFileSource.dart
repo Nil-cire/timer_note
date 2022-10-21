@@ -151,4 +151,14 @@ class LocaleFileSource {
       return false;
     }
   }
+
+  Future<bool> editNote(String subjectUid, String noteUid, String data) async {
+    try {
+      File file = await _getNoteFile(subjectUid, noteUid);
+      file.writeAsString(data, mode: FileMode.write);
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
 }

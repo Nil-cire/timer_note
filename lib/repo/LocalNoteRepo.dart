@@ -60,9 +60,12 @@ class LocalNoteRepo extends AbstractNoteRepo {
   }
 
   @override
-  Future<bool> editNote(String subjectUid, NoteEntity note) {
-    // TODO: implement editNote
-    throw UnimplementedError();
+  Future<bool> editNote(String subjectUid, NoteEntity note) async {
+    return await localeFileSource.editNote(
+        subjectUid,
+        note.uuid,
+        jsonEncode(note.toJson())
+    );
   }
 
   @override
