@@ -8,6 +8,7 @@ part of 'NoteDto.dart';
 
 NoteDto _$NoteDtoFromJson(Map<String, dynamic> json) => NoteDto(
       json['uuid'] as String,
+      json['subjectUid'] as String,
       json['subject'] as String,
       json['content'] as String,
       json['timeSecond'] as int,
@@ -15,6 +16,7 @@ NoteDto _$NoteDtoFromJson(Map<String, dynamic> json) => NoteDto(
       json['temperature'] as String?,
       json['weather'] as String?,
       json['score'] as String,
+      (json['scoreHistory'] as List<dynamic>).map((e) => e as int).toList(),
       customData: (json['customData'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -22,6 +24,7 @@ NoteDto _$NoteDtoFromJson(Map<String, dynamic> json) => NoteDto(
 
 Map<String, dynamic> _$NoteDtoToJson(NoteDto instance) => <String, dynamic>{
       'uuid': instance.uuid,
+      'subjectUid': instance.subjectUid,
       'subject': instance.subject,
       'content': instance.content,
       'timeSecond': instance.timeSecond,
@@ -29,5 +32,6 @@ Map<String, dynamic> _$NoteDtoToJson(NoteDto instance) => <String, dynamic>{
       'temperature': instance.temperature,
       'weather': instance.weather,
       'score': instance.score,
+      'scoreHistory': instance.scoreHistory,
       'customData': instance.customData,
     };

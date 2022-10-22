@@ -16,4 +16,6 @@ abstract class AbstractNoteRepo {
   Future<bool> editNote(String subjectUid, NoteEntity note);
   Future<bool> deleteNote(String subjectUid);
 
+  Future<NoteEntity> getNote(String subjectUid, String noteUid);
+
 }

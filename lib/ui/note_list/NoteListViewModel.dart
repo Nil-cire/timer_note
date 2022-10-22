@@ -15,16 +15,24 @@ class NoteListViewModel extends Cubit<NoteListViewModelState> {
 
   void getNotes() async {
     notes = await abstractNoteRepo.getNotes(subjectUid);
-    emit(NoteListViewModelState.noteUpdate);
+    _emitNoteUpdate();
   }
 
   void addNote(NoteEntity noteEntity) async {
     await abstractNoteRepo.addNote(subjectUid, noteEntity);
     getNotes();
   }
+
+  void _emitNoteUpdate() {
+    if (state == NoteListViewModelState.noteUpdate) {
+      emit(NoteListViewModelState.noteUpdate2);
+    } else {
+      emit(NoteListViewModelState.noteUpdate);
+    }
+  }
 }
 
 enum NoteListViewModelState {
   init,
-  noteUpdate,
+  noteUpdate, noteUpdate2
 }

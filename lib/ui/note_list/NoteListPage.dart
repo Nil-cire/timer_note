@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +22,13 @@ class NoteListPage extends StatefulWidget {
 class NoteListPageState extends State<NoteListPage> {
   late NoteListViewModel vm;
 
+
+  @override
+  void dispose() {
+    vm.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     vm = NoteListViewModel(
@@ -39,9 +44,10 @@ class NoteListPageState extends State<NoteListPage> {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return AddNoteDialog((note) {
-                      vm.addNote(note);
-                    });
+                    return AddNoteDialog(
+                      widget.subjectInfo.uuid,
+                      (note) {vm.addNote(note);}
+                    );
                   });
             },
           )
@@ -52,7 +58,9 @@ class NoteListPageState extends State<NoteListPage> {
           bloc: vm,
           buildWhen: (context, state) {
             return (state == NoteListViewModelState.init ||
-                state == NoteListViewModelState.noteUpdate);
+                state == NoteListViewModelState.noteUpdate ||
+                state == NoteListViewModelState.noteUpdate2
+            );
           },
           builder: (context, state) {
             switch (state) {
@@ -61,19 +69,22 @@ class NoteListPageState extends State<NoteListPage> {
                   child: Text(MyString.noNote),
                 );
               case NoteListViewModelState.noteUpdate:
+              case NoteListViewModelState.noteUpdate2:
                 if (vm.notes.isEmpty) {
                   return const Center(
                     child: Text(MyString.noNote),
                   );
                 } else {
-                  log("sss build");
                   return ListView.builder(
                       itemCount: vm.notes.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTapUp: (tapUpDetails) {
                             Navigator.of(context).pushNamed('/note_detail',
-                                arguments: {'note_detail': vm.notes[index]});
+                                arguments: {'note_detail': vm.notes[index]})
+                                .then((value) => () {
+                                  vm.getNotes();
+                            });
                           },
                           child: Padding(
                             padding:

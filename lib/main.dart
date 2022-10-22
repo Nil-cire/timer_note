@@ -55,7 +55,8 @@ class MyApp extends StatelessWidget {
         "/timer": (context) {
           dynamic obj = ModalRoute.of(context)?.settings.arguments;
           var time = obj["time"];
-          return TimerPage(countdownTime: time);
+          var note = obj["note"];
+          return TimerPage(note, countdownTime: time);
         }
       },
     );
