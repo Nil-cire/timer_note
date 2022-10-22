@@ -135,6 +135,12 @@ class TimerPageState extends State<TimerPage> {
     _initDisplayTime();
   }
 
+  @override
+  void dispose() {
+    vm.close();
+    super.dispose();
+  }
+
   void _initDisplayTime() {
     if (widget.countdownTime != null) {
       try {

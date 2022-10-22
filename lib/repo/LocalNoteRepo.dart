@@ -85,4 +85,9 @@ class LocalNoteRepo extends AbstractNoteRepo {
     }
     return subjects;
   }
+
+  @override
+  Future<NoteEntity> getNote(String subjectUid, String noteUid) async {
+    return await localeFileSource.getNote(subjectUid, noteUid);
+  }
 }

@@ -119,7 +119,7 @@ class HomePageState extends State<HomePage> {
                                     Navigator.of(context).pushNamed('/note_list',
                                         arguments: {
                                           'note_files': viewModel.recentSubject
-                                        });
+                                        }).then((value) {viewModel.getSubjects();});
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -146,14 +146,13 @@ class HomePageState extends State<HomePage> {
                             itemCount: viewModel.noteFiles.length,
                             itemBuilder: (context, index) {
                               var subject = viewModel.noteFiles[index];
-                              var uid = subject.uuid;
                               return GestureDetector(
                                 onTapUp: (tapUpDetails) {
                                   viewModel.setRecentSubjectUid(viewModel.noteFiles[index].uuid);
                                   Navigator.of(context).pushNamed('/note_list',
                                       arguments: {
                                         'note_files': subject
-                                      });
+                                      }).then((value) {viewModel.getSubjects();});
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(

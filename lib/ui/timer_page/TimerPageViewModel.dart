@@ -13,9 +13,6 @@ class TimerPageViewModel extends Cubit<TimerPageViewModelState> {
     noteEntity.scoreHistory.add(newScore);
     return await abstractNoteRepo.editNote(noteEntity.subjectUid, noteEntity);
   }
-
 }
 
-enum TimerPageViewModelState {
-  init
-}
+enum TimerPageViewModelState { init }
