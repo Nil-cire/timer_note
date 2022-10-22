@@ -39,6 +39,37 @@ class NoteListPageState extends State<NoteListPage> {
       appBar: AppBar(
         title: Text(widget.subjectInfo.title),
         actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.sort),
+            itemBuilder: (context) {
+              var index = -1;
+              List<String> optionList = ["Title", "Time", "Score"];
+              return optionList.map((option) {
+                index ++;
+                return PopupMenuItem(
+                  value: index,
+                  child: Text(option),
+                );
+              }).toList();
+            },
+            onSelected: (value) {
+              switch (value) {
+                case 0: { // title
+                  vm.sortNotes(NoteSortType.title);
+                  break;
+                }
+                case 1: { // time
+                  vm.sortNotes(NoteSortType.time);
+                  break;
+                }
+                case 2 : { // score
+                  vm.sortNotes(NoteSortType.score);
+                  break;
+                }
+                default: {}
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.add, color: Colors.white),
             onPressed: () {
