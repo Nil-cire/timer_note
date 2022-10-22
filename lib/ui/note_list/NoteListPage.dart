@@ -124,7 +124,10 @@ class NoteListPageState extends State<NoteListPage> {
                                 left: MyDimension.mainPadding,
                                 top: MyDimension.mainPadding,
                                 right: MyDimension.mainPadding),
-                            child: NoteListExpandItemView(vm.notes[index]),
+                            child: NoteListExpandItemView(
+                                vm.notes[index],
+                                () { vm.deleteNote(vm.notes[index]); }
+                            ),
                           ),
                         );
                       });

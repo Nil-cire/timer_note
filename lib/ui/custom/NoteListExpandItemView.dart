@@ -6,8 +6,10 @@ import 'package:timer_note/value/MyColor.dart';
 import '../../value/MyDimension.dart';
 
 class NoteListExpandItemView extends StatefulWidget {
-  const NoteListExpandItemView(this.note, {Key? key}) : super(key: key);
+  const NoteListExpandItemView(this.note, this.onDelete, {Key? key})
+      : super(key: key);
   final NoteEntity note;
+  final Function onDelete;
 
   @override
   State<NoteListExpandItemView> createState() => NoteListExpandItemViewState();
@@ -34,11 +36,11 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                     children: [
                       Expanded(
                           child: Text(
-                        widget.note.subject,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: MyDimension.fontSizeItemTitle),
-                      )),
+                            widget.note.subject,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: MyDimension.fontSizeItemTitle),
+                          )),
                       IconButton(
                           onPressed: () {
                             setState(() {
@@ -46,8 +48,10 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                             });
                           },
                           icon: isExpand
-                              ? const Icon(Icons.arrow_drop_down, color: MyColor.white)
-                              : const Icon(Icons.arrow_drop_up, color: MyColor.white))
+                              ? const Icon(
+                              Icons.arrow_drop_down, color: MyColor.white)
+                              : const Icon(
+                              Icons.arrow_drop_up, color: MyColor.white))
                     ],
                   ),
                   Row(
@@ -58,7 +62,8 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                "Timer : ${Util.toHour(widget.note.timeSecond.toString())}",
+                                "Timer : ${Util.toHour(
+                                    widget.note.timeSecond.toString())}",
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: MyDimension.fontSizeItemContent)),
@@ -70,7 +75,24 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                         ),
                       ),
                       IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.delete, color: MyColor.white,))
+                          onPressed: () {
+                            showDialog(context: context, builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                    "Confirm delete \"${widget.note.subject}\"?"),
+                                actions: [
+                                  ElevatedButton(onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }, child: Text("Cancel")),
+                                  ElevatedButton(onPressed: () {
+                                    widget.onDelete.call();
+                                    Navigator.of(context).pop();
+                                  }, child: Text("Confirm")),
+                                ],
+                              );
+                            });
+                          },
+                          icon: const Icon(Icons.delete, color: MyColor.white,))
                     ],
                   )
                 ],

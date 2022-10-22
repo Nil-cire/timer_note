@@ -75,6 +75,11 @@ class NoteListViewModel extends Cubit<NoteListViewModelState> {
       emit(NoteListViewModelState.noteUpdate);
     }
   }
+
+  void deleteNote(NoteEntity note) async {
+    await abstractNoteRepo.deleteNote(note.subjectUid, note.uuid);
+    getNotes();
+  }
 }
 
 enum NoteListViewModelState {

@@ -41,9 +41,8 @@ class LocalNoteRepo extends AbstractNoteRepo {
   }
 
   @override
-  Future<bool> deleteNote(String subjectUid) {
-    // TODO: implement deleteNote
-    throw UnimplementedError();
+  Future<bool> deleteNote(String subjectUid, String noteUid) async {
+    return await localeFileSource.deleteNote(subjectUid, noteUid);
   }
 
   @override
