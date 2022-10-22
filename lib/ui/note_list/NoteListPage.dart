@@ -8,6 +8,7 @@ import 'package:timer_note/value/MyDimension.dart';
 
 import '../../value/MyString.dart';
 import '../custom/AddNoteDialog.dart';
+import '../custom/NoteListExpandItemView.dart';
 import '../custom/NoteListItemView.dart';
 import 'NoteListViewModel.dart';
 
@@ -54,6 +55,7 @@ class NoteListPageState extends State<NoteListPage> {
         ],
       ),
       body: Container(
+        // padding: const EdgeInsets.only(bottom: MyDimension.mainPadding),
         child: BlocBuilder<NoteListViewModel, NoteListViewModelState>(
           bloc: vm,
           buildWhen: (context, state) {
@@ -87,12 +89,11 @@ class NoteListPageState extends State<NoteListPage> {
                             });
                           },
                           child: Padding(
-                            padding:
-                                const EdgeInsets.all(MyDimension.mainPadding),
-                            child: AspectRatio(
-                              aspectRatio: 3 / 1,
-                              child: NoteListItemView(vm.notes[index]),
-                            ),
+                            padding: const EdgeInsets.only(
+                                left: MyDimension.mainPadding,
+                                top: MyDimension.mainPadding,
+                                right: MyDimension.mainPadding),
+                            child: NoteListExpandItemView(vm.notes[index]),
                           ),
                         );
                       });
