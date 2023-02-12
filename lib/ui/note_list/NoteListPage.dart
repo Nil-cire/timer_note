@@ -8,6 +8,7 @@ import 'package:timer_note/value/MyDimension.dart';
 
 import '../../value/MyString.dart';
 import '../custom/AddNoteDialog.dart';
+import '../custom/NoteListExpandItemView.dart';
 import '../custom/NoteListItemView.dart';
 import 'NoteListViewModel.dart';
 
@@ -38,6 +39,37 @@ class NoteListPageState extends State<NoteListPage> {
       appBar: AppBar(
         title: Text(widget.subjectInfo.title),
         actions: [
+          PopupMenuButton(
+            icon: const Icon(Icons.sort),
+            itemBuilder: (context) {
+              var index = -1;
+              List<String> optionList = ["Title", "Time", "Score"];
+              return optionList.map((option) {
+                index ++;
+                return PopupMenuItem(
+                  value: index,
+                  child: Text(option),
+                );
+              }).toList();
+            },
+            onSelected: (value) {
+              switch (value) {
+                case 0: { // title
+                  vm.sortNotes(NoteSortType.title);
+                  break;
+                }
+                case 1: { // time
+                  vm.sortNotes(NoteSortType.time);
+                  break;
+                }
+                case 2 : { // score
+                  vm.sortNotes(NoteSortType.score);
+                  break;
+                }
+                default: {}
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.add, color: Colors.white),
             onPressed: () {
@@ -54,6 +86,7 @@ class NoteListPageState extends State<NoteListPage> {
         ],
       ),
       body: Container(
+        // padding: const EdgeInsets.only(bottom: MyDimension.mainPadding),
         child: BlocBuilder<NoteListViewModel, NoteListViewModelState>(
           bloc: vm,
           buildWhen: (context, state) {
@@ -87,11 +120,14 @@ class NoteListPageState extends State<NoteListPage> {
                             });
                           },
                           child: Padding(
-                            padding:
-                                const EdgeInsets.all(MyDimension.mainPadding),
-                            child: AspectRatio(
-                              aspectRatio: 3 / 1,
-                              child: NoteListItemView(vm.notes[index]),
+                            padding: EdgeInsets.only(
+                                left: MyDimension.mainPadding,
+                                top: (index==0) ? MyDimension.mainPadding : 0.0,
+                                bottom: MyDimension.mainPadding,
+                                right: MyDimension.mainPadding),
+                            child: NoteListExpandItemView(
+                                vm.notes[index],
+                                () { vm.deleteNote(vm.notes[index]); }
                             ),
                           ),
                         );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/SubjectEntity.dart';
-import 'package:timer_note/data/util.dart';
+import 'package:timer_note/util.dart';
 
 import '../../value/MyDimension.dart';
 

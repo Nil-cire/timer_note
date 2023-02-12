@@ -8,9 +8,54 @@ class NoteListViewModel extends Cubit<NoteListViewModelState> {
   AbstractNoteRepo abstractNoteRepo;
   List<NoteEntity> notes = [];
 
+  int titleSort = 0;
+  int timeSort = 0;
+  int scoreSort = 0;
+
   NoteListViewModel(this.subjectUid, this.abstractNoteRepo)
       : super(NoteListViewModelState.init) {
     getNotes();
+  }
+
+  void sortNotes(NoteSortType subjectsSortType) {
+    switch (subjectsSortType) {
+      case NoteSortType.title: {
+        if (titleSort == 0) {
+          notes.sort((a, b) => a.subject.compareTo(b.subject));
+          _emitNoteUpdate();
+          titleSort = 1;
+        } else {
+          notes.sort((a, b) => b.subject.compareTo(a.subject));
+          _emitNoteUpdate();
+          titleSort = 0;
+        }
+        break;
+      }
+      case NoteSortType.time: {
+        if (timeSort == 0) {
+          notes.sort((a, b) => b.timeSecond.compareTo(a.timeSecond));
+          _emitNoteUpdate();
+          timeSort = 1;
+        } else {
+          notes.sort((a, b) => a.timeSecond.compareTo(b.timeSecond));
+          _emitNoteUpdate();
+          timeSort = 0;
+        }
+        break;
+      }
+      case NoteSortType.score: {
+        if (scoreSort == 0) {
+          notes.sort((a, b) => b.score.compareTo(a.score));
+          _emitNoteUpdate();
+          scoreSort = 1;
+        } else {
+          notes.sort((a, b) => a.score.compareTo(b.score));
+          _emitNoteUpdate();
+          scoreSort = 0;
+        }
+        break;
+      }
+    }
   }
 
   void getNotes() async {
@@ -30,9 +75,18 @@ class NoteListViewModel extends Cubit<NoteListViewModelState> {
       emit(NoteListViewModelState.noteUpdate);
     }
   }
+
+  void deleteNote(NoteEntity note) async {
+    await abstractNoteRepo.deleteNote(note.subjectUid, note.uuid);
+    getNotes();
+  }
 }
 
 enum NoteListViewModelState {
   init,
   noteUpdate, noteUpdate2
+}
+
+enum NoteSortType {
+  title, time, score
 }

@@ -152,6 +152,16 @@ class LocaleFileSource {
     }
   }
 
+  Future<bool> deleteNote(String subjectUid, String noteUid) async {
+    try {
+      File file = await _getNoteFile(subjectUid, noteUid);
+      file.delete();
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
   Future<bool> editNote(String subjectUid, String noteUid, String data) async {
     try {
       File file = await _getNoteFile(subjectUid, noteUid);
