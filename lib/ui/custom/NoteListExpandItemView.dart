@@ -102,6 +102,7 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
               visible: isExpand,
               child: Container(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: 1,
@@ -109,6 +110,7 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                       margin: const EdgeInsets.only(top: 8, bottom: 16),
                     ),
                     Text(widget.note.content,
+                        textAlign: TextAlign.start,
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: MyDimension.fontSizeItemContent))

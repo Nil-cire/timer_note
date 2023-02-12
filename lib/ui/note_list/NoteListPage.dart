@@ -120,9 +120,10 @@ class NoteListPageState extends State<NoteListPage> {
                             });
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                                 left: MyDimension.mainPadding,
-                                top: MyDimension.mainPadding,
+                                top: (index==0) ? MyDimension.mainPadding : 0.0,
+                                bottom: MyDimension.mainPadding,
                                 right: MyDimension.mainPadding),
                             child: NoteListExpandItemView(
                                 vm.notes[index],
