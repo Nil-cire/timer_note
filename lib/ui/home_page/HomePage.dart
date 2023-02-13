@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer_note/value/MyColor.dart';
 import 'package:timer_note/value/MyString.dart';
 
 import '../../value/MyDimension.dart';
@@ -60,23 +61,24 @@ class HomePageState extends State<HomePage> {
             onPressed: () {
               // do something
             },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AddSubjectDialog((title) {
-                      viewModel.addSubjectAndUpdate(title);
-                    });
-                  });
-            },
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AddSubjectDialog((title) {
+                  viewModel.addSubjectAndUpdate(title);
+                });
+              });
+        },
+        backgroundColor: MyColor.emphasizeColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.only(bottom: MyDimension.mainPadding),
