@@ -4,8 +4,8 @@ import 'package:timer_note/value/MyColor.dart';
 import 'package:timer_note/value/MyString.dart';
 
 import '../../value/MyDimension.dart';
-import '../custom/AddSubjectDialog.dart';
 import '../custom/HomeNoteView.dart';
+import '../custom/dialog/SingleInputDialog.dart';
 import 'HomePageViewModel.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,8 +23,10 @@ class HomePageState extends State<HomePage> {
     viewModel = context.watch<HomePageViewModel>();
 
     return Scaffold(
+      backgroundColor: MyColor.secondaryColor,
       appBar: AppBar(
         title: const Text(MyString.homeTitle),
+        backgroundColor: MyColor.primaryColor,
         actions: [
           PopupMenuButton(
             icon: const Icon(Icons.sort),
@@ -69,9 +71,11 @@ class HomePageState extends State<HomePage> {
           showDialog(
               context: context,
               builder: (context) {
-                return AddSubjectDialog((title) {
-                  viewModel.addSubjectAndUpdate(title);
-                });
+                return SingleInputDialog(
+                  title: MyString.enterCategoryTitle,
+                  inputHint: MyString.enterCategoryInputHint,
+                  (title) { viewModel.addSubjectAndUpdate(title); }
+                );
               });
         },
         backgroundColor: MyColor.emphasizeColor,
@@ -92,16 +96,20 @@ class HomePageState extends State<HomePage> {
             switch (state) {
               case HomePageViewModelState.init:
                 return const Center(
-                  child: Text(MyString.noSubject),
+                  child: Text(MyString.noSubject, style: TextStyle(color: MyColor.textOnPrimaryColor)),
                 );
               case HomePageViewModelState.subjectUpdate:
                 if (viewModel.noteFiles.isEmpty) {
                   return const Center(
-                    child: Text(MyString.noSubject),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Text(MyString.noSubject, style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeItemTitle), textAlign: TextAlign.center,),
+                    ),
                   );
                 } else {
                   return SingleChildScrollView(
                     child: Column(
+
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         viewModel.recentSubject != null ?
@@ -114,7 +122,7 @@ class HomePageState extends State<HomePage> {
                                       top: MyDimension.mainPadding,
                                       right: MyDimension.mainPadding
                                   ),
-                                  child: Text("Recent"),
+                                  child: Text("Recent", style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeListTitle)),
                                 ),
                                 GestureDetector(
                                   onTapUp: (tapUpDetails) {
@@ -140,7 +148,7 @@ class HomePageState extends State<HomePage> {
                               top: MyDimension.mainPadding,
                               right: MyDimension.mainPadding
                           ),
-                          child: Text("All"),
+                          child: Text("All", style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeListTitle)),
                         ),
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),

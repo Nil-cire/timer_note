@@ -2,12 +2,13 @@
 class MyString {
   //universal
   static const confirm = "Confirm";
+  static const cancel = "Cancel";
 
   // home page
   static const homeTitle = "Timer Note";
-  static const noSubject = "You don't have any subject yet, Press + to add one";
-  static const enterSubjectTitle = "Create subject";
-  static const enterSubjectTitleHint = "Subject title";
+  static const noSubject = "Press + to create a category and start writing notes.";
+  static const enterCategoryTitle = "Add category";
+  static const enterCategoryInputHint = "Enter name for new category";
   static const enterSubjectTitleError = "Please enter title";
 
   // note list page

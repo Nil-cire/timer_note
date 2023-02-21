@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/SubjectEntity.dart';
 import 'package:timer_note/util.dart';
+import 'package:timer_note/value/MyColor.dart';
 
 import '../../value/MyDimension.dart';
 
@@ -9,6 +10,7 @@ class HomeNoteView extends StatelessWidget {
 
   final SubjectEntity noteFile;
   final Function(String) onDelete;
+  static const Color textColor = MyColor.textOnItemColor;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class HomeNoteView extends StatelessWidget {
           const BorderRadius.all(Radius.circular(MyDimension.mainBorderRadius)),
       child: Container(
           padding: const EdgeInsets.all(MyDimension.itemMainPadding),
-          color: Colors.blue,
+          color: MyColor.itemColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,13 +41,13 @@ class HomeNoteView extends StatelessWidget {
                             ? "${noteFile.notes.length} note"
                             : "${noteFile.notes.length} notes",
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: textColor,
                             fontSize: MyDimension.fontSizeItemContent),
                       ),
                       Text(
                         Util.toDate(noteFile.uuid),
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: textColor,
                             fontSize: MyDimension.fontSizeItemContent),
                       ),
                     ],

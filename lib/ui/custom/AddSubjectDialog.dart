@@ -22,11 +22,11 @@ class AddSubjectDialog extends StatelessWidget {
             key: formKey,
             child: Column(
               children: [
-                const Text(MyString.enterSubjectTitle),
+                const Text(MyString.enterCategoryTitle),
                 TextFormField(
                     controller: titleTextController,
                     decoration: const InputDecoration(
-                        hintText: MyString.enterSubjectTitleHint),
+                        hintText: MyString.enterCategoryInputHint),
                     validator: (text) {
                       if (text == null || text.trim().isEmpty) {
                         return (MyString.enterSubjectTitleError);
