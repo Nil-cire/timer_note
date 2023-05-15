@@ -6,11 +6,18 @@ import 'package:timer_note/data/entity/SubjectEntity.dart';
 import 'package:timer_note/repo/LocalNoteRepo.dart';
 import 'package:timer_note/value/MyDimension.dart';
 
+import '../../value/MyColor.dart';
 import '../../value/MyString.dart';
 import '../custom/AddNoteDialog.dart';
 import '../custom/NoteListExpandItemView.dart';
 import '../custom/NoteListItemView.dart';
 import 'NoteListViewModel.dart';
+
+
+const backGroundTextStyle = TextStyle(
+  fontSize: 20,
+  color: MyColor.textOnPrimaryColor,
+);
 
 class NoteListPage extends StatefulWidget {
   const NoteListPage(this.subjectInfo, {Key? key}) : super(key: key);
@@ -36,8 +43,10 @@ class NoteListPageState extends State<NoteListPage> {
         widget.subjectInfo.uuid, LocalNoteRepo(LocaleFileSource.getInstance));
 
     return Scaffold(
+      backgroundColor: MyColor.secondaryColor,
       appBar: AppBar(
         title: Text(widget.subjectInfo.title),
+        backgroundColor: MyColor.primaryColor,
         actions: [
           PopupMenuButton(
             icon: const Icon(Icons.sort),
@@ -70,20 +79,24 @@ class NoteListPageState extends State<NoteListPage> {
               }
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AddNoteDialog(
-                      widget.subjectInfo.uuid,
-                      (note) {vm.addNote(note);}
-                    );
-                  });
-            },
-          )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AddNoteDialog(
+                    widget.subjectInfo.uuid,
+                        (note) {vm.addNote(note);}
+                );
+              });
+        },
+        backgroundColor: MyColor.emphasizeColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: Container(
         // padding: const EdgeInsets.only(bottom: MyDimension.mainPadding),
@@ -99,13 +112,19 @@ class NoteListPageState extends State<NoteListPage> {
             switch (state) {
               case NoteListViewModelState.init:
                 return const Center(
-                  child: Text(MyString.noNote),
+                  child: Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Text(MyString.noNote, style: backGroundTextStyle),
+                  ),
                 );
               case NoteListViewModelState.noteUpdate:
               case NoteListViewModelState.noteUpdate2:
                 if (vm.notes.isEmpty) {
                   return const Center(
-                    child: Text(MyString.noNote),
+                    child: Padding(
+                      padding: EdgeInsets.all(32.0),
+                      child: Text(MyString.noNote, style: backGroundTextStyle),
+                    ),
                   );
                 } else {
                   return ListView.builder(

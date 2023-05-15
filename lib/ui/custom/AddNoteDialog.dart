@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_note/data/entity/NoteEntity.dart';
+import 'package:timer_note/value/MyColor.dart';
 import 'package:timer_note/value/MyDimension.dart';
 
 import '../../value/MyString.dart';
@@ -32,14 +33,13 @@ class AddNoteDialog extends StatelessWidget {
     return Dialog(
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(
-              right: MyDimension.itemMainPadding,
-              left: MyDimension.itemMainPadding),
+          padding: const EdgeInsets.all( MyDimension.itemMainPadding),
           child: Form(
             key: formKey,
             child: Column(
               children: [
-                const Text(MyString.addNoteTitle),
+                const Text(MyString.addNoteTitle, style: titleTextStyle,),
+                Container(height: spaceBetween,),
                 TextFormField(
                     controller: titleTextController,
                     decoration: const InputDecoration(
@@ -50,11 +50,13 @@ class AddNoteDialog extends StatelessWidget {
                       }
                       return null;
                     }),
+                Container(height: spaceBetween,),
                 TextFormField(
                   controller: contentTextController,
                   decoration: const InputDecoration(
                       hintText: MyString.addNoteContentHint),
                 ),
+                Container(height: spaceBetween,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -99,7 +101,12 @@ class AddNoteDialog extends StatelessWidget {
                     ),
                   ],
                 ),
+                Container(height: spaceBetween,),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyColor.emphasizeColor,
+                    onPrimary: MyColor.textOnPrimaryColor,
+                  ),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         var now = DateTime.now();
@@ -148,7 +155,7 @@ class AddNoteDialog extends StatelessWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: const Text(MyString.confirm))
+                    child: const Text(MyString.create))
               ],
             ),
           ),
@@ -157,3 +164,6 @@ class AddNoteDialog extends StatelessWidget {
     );
   }
 }
+
+const spaceBetween =  16.0;
+const titleTextStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: MyColor.textOnItemColor);

@@ -8,6 +8,11 @@ import '../custom/HomeNoteView.dart';
 import '../custom/dialog/SingleInputDialog.dart';
 import 'HomePageViewModel.dart';
 
+const backGroundTextStyle = TextStyle(
+  fontSize: 20,
+  color: MyColor.textOnPrimaryColor,
+);
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -96,14 +101,17 @@ class HomePageState extends State<HomePage> {
             switch (state) {
               case HomePageViewModelState.init:
                 return const Center(
-                  child: Text(MyString.noSubject, style: TextStyle(color: MyColor.textOnPrimaryColor)),
+                  child: Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Text(MyString.noSubject, style: backGroundTextStyle),
+                  ),
                 );
               case HomePageViewModelState.subjectUpdate:
                 if (viewModel.noteFiles.isEmpty) {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32.0),
-                      child: Text(MyString.noSubject, style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeItemTitle), textAlign: TextAlign.center,),
+                      child: Text(MyString.noSubject, style: backGroundTextStyle),
                     ),
                   );
                 } else {
