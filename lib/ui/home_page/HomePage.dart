@@ -101,7 +101,10 @@ class HomePageState extends State<HomePage> {
             switch (state) {
               case HomePageViewModelState.init:
                 return const Center(
-                  child: Text(MyString.noSubject, style: backGroundTextStyle),
+                  child: Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Text(MyString.noSubject, style: backGroundTextStyle),
+                  ),
                 );
               case HomePageViewModelState.subjectUpdate:
                 if (viewModel.noteFiles.isEmpty) {
