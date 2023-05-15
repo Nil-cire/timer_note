@@ -75,13 +75,25 @@ class HomeNoteView extends StatelessWidget {
                                       return AlertDialog(
                                         title: Text("Confirm delete \"${noteFile.title}\"?"),
                                         actions: [
-                                          ElevatedButton(onPressed: (){
-                                            Navigator.of(context).pop();
-                                          }, child: Text("Cancel")),
-                                          ElevatedButton(onPressed: (){
-                                            onDelete.call(noteFile.uuid);
-                                            Navigator.of(context).pop();
-                                          }, child: Text("Confirm")),
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: MyColor.emphasizeColor,
+                                                onPrimary: MyColor.textOnPrimaryColor,
+                                              ),
+                                              onPressed: (){
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Cancel")),
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: MyColor.emphasizeColor,
+                                                onPrimary: MyColor.textOnPrimaryColor,
+                                              ),
+                                              onPressed: (){
+                                                onDelete.call(noteFile.uuid);
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Confirm")),
                                         ],
                                       );
                                     }

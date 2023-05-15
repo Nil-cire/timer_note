@@ -24,18 +24,18 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(20)),
       child: Container(
-        padding: const EdgeInsets.all(MyDimension.itemMainPadding),
-        color: MyColor.itemColor,
-        child: Row(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Icon(
-                Icons.edit_note,
-                color: MyColor.textOnItemColor,
+          padding: const EdgeInsets.all(MyDimension.itemMainPadding),
+          color: MyColor.itemColor,
+          child: Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Icon(
+                  Icons.edit_note,
+                  color: MyColor.textOnItemColor,
+                ),
               ),
-            ),
-            Expanded(
+              Expanded(
                 child: Column(
                   children: [
                     Container(
@@ -47,14 +47,14 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                             children: [
                               Expanded(
                                   child: Text(
-                                    widget.note.subject,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontStyle: FontStyle.italic,
-                                        color: MyColor.textOnItemColor,
-                                        fontSize: MyDimension.fontSizeItemTitle),
-                                  )),
+                                widget.note.subject,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.ellipsis,
+                                    fontStyle: FontStyle.italic,
+                                    color: MyColor.textOnItemColor,
+                                    fontSize: MyDimension.fontSizeItemTitle),
+                              )),
                               IconButton(
                                   onPressed: () {
                                     setState(() {
@@ -62,10 +62,10 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                                     });
                                   },
                                   icon: isExpand
-                                      ? const Icon(
-                                      Icons.arrow_drop_down, color: MyColor.textOnItemColor)
-                                      : const Icon(
-                                      Icons.arrow_drop_up, color: MyColor.textOnItemColor))
+                                      ? const Icon(Icons.arrow_drop_down,
+                                          color: MyColor.textOnItemColor)
+                                      : const Icon(Icons.arrow_drop_up,
+                                          color: MyColor.textOnItemColor))
                             ],
                           ),
                           Row(
@@ -76,37 +76,57 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        "Timer : ${Util.toHour(
-                                            widget.note.timeSecond.toString())}",
+                                        "Timer : ${Util.toHour(widget.note.timeSecond.toString())}",
                                         style: const TextStyle(
                                             color: MyColor.textOnItemColor,
-                                            fontSize: MyDimension.fontSizeItemContent)),
+                                            fontSize: MyDimension
+                                                .fontSizeItemContent)),
                                     Text("Score : ${widget.note.score}",
                                         style: const TextStyle(
                                             color: MyColor.textOnItemColor,
-                                            fontSize: MyDimension.fontSizeItemContent)),
+                                            fontSize: MyDimension
+                                                .fontSizeItemContent)),
                                   ],
                                 ),
                               ),
                               IconButton(
                                   onPressed: () {
-                                    showDialog(context: context, builder: (context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                            "Confirm delete \"${widget.note.subject}\"?"),
-                                        actions: [
-                                          ElevatedButton(onPressed: () {
-                                            Navigator.of(context).pop();
-                                          }, child: const Text(MyString.cancel)),
-                                          ElevatedButton(onPressed: () {
-                                            widget.onDelete.call();
-                                            Navigator.of(context).pop();
-                                          }, child: const Text(MyString.confirm)),
-                                        ],
-                                      );
-                                    });
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                                "Confirm delete \"${widget.note.subject}\"?"),
+                                            actions: [
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    primary: MyColor.emphasizeColor,
+                                                    onPrimary: MyColor.textOnPrimaryColor,
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text(
+                                                      MyString.cancel)),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    primary: MyColor.emphasizeColor,
+                                                    onPrimary: MyColor.textOnPrimaryColor,
+                                                  ),
+                                                  onPressed: () {
+                                                    widget.onDelete.call();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text(
+                                                      MyString.confirm)),
+                                            ],
+                                          );
+                                        });
                                   },
-                                  icon: const Icon(Icons.delete, color: MyColor.textOnItemColor,))
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: MyColor.textOnItemColor,
+                                  ))
                             ],
                           )
                         ],
@@ -134,10 +154,9 @@ class NoteListExpandItemViewState extends State<NoteListExpandItemView> {
                     )
                   ],
                 ),
-            )
-          ],
-        )
-      ),
+              )
+            ],
+          )),
     );
   }
 }
