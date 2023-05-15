@@ -20,66 +20,85 @@ class HomeNoteView extends StatelessWidget {
       child: Container(
           padding: const EdgeInsets.all(MyDimension.itemMainPadding),
           color: MyColor.itemColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Text(
-                noteFile.title,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: MyDimension.fontSizeItemTitle),
+              const Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.folder,
+                  color: textColor,
+                ),
               ),
-              Container(height: 12,),
-              Row(
-                children: [
-                  Expanded(
-                      child: Column(
+              Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        (noteFile.notes.length <= 1)
-                            ? "${noteFile.notes.length} note"
-                            : "${noteFile.notes.length} notes",
+                        noteFile.title,
+                        maxLines: 2,
                         style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            fontStyle: FontStyle.italic,
                             color: textColor,
-                            fontSize: MyDimension.fontSizeItemContent),
+                            fontSize: MyDimension.fontSizeItemTitle
+                        ),
                       ),
-                      Text(
-                        Util.toDate(noteFile.uuid),
-                        style: const TextStyle(
-                            color: textColor,
-                            fontSize: MyDimension.fontSizeItemContent),
-                      ),
-                    ],
-                  )),
-                  IconButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Confirm delete \"${noteFile.title}\"?"),
-                                actions: [
-                                  ElevatedButton(onPressed: (){
-                                    Navigator.of(context).pop();
-                                  }, child: Text("Cancel")),
-                                  ElevatedButton(onPressed: (){
-                                    onDelete.call(noteFile.uuid);
-                                    Navigator.of(context).pop();
-                                  }, child: Text("Confirm")),
+                      Container(height: 4,),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    (noteFile.notes.length <= 1)
+                                        ? "${noteFile.notes.length} note"
+                                        : "${noteFile.notes.length} notes",
+                                    style: const TextStyle(
+                                        color: textColor,
+                                        fontSize: MyDimension.fontSizeItemContent),
+                                  ),
+                                  Text( // display date
+                                    Util.toDate(noteFile.uuid),
+                                    style: const TextStyle(
+                                        color: textColor,
+                                        fontSize: MyDimension.fontSizeItemContent),
+                                  ),
                                 ],
-                              );
-                            }
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ))
-                ],
+                              )),
+                          IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("Confirm delete \"${noteFile.title}\"?"),
+                                        actions: [
+                                          ElevatedButton(onPressed: (){
+                                            Navigator.of(context).pop();
+                                          }, child: Text("Cancel")),
+                                          ElevatedButton(onPressed: (){
+                                            onDelete.call(noteFile.uuid);
+                                            Navigator.of(context).pop();
+                                          }, child: Text("Confirm")),
+                                        ],
+                                      );
+                                    }
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: MyColor.secondaryColor,
+                              ))
+                        ],
+                      )
+                    ],
+                  )
               )
             ],
-          )),
+          )
+      ),
     );
   }
 }

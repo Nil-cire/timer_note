@@ -122,7 +122,7 @@ class HomePageState extends State<HomePage> {
                                       top: MyDimension.mainPadding,
                                       right: MyDimension.mainPadding
                                   ),
-                                  child: Text("Recent", style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeListTitle)),
+                                  child: Text("Recent Topic", style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeListTitle)),
                                 ),
                                 GestureDetector(
                                   onTapUp: (tapUpDetails) {
@@ -148,7 +148,7 @@ class HomePageState extends State<HomePage> {
                               top: MyDimension.mainPadding,
                               right: MyDimension.mainPadding
                           ),
-                          child: Text("All", style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeListTitle)),
+                          child: Text("All Topics", style: TextStyle(color: MyColor.textOnPrimaryColor, fontSize: MyDimension.fontSizeListTitle)),
                         ),
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
