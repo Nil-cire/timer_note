@@ -79,20 +79,24 @@ class NoteListPageState extends State<NoteListPage> {
               }
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AddNoteDialog(
-                      widget.subjectInfo.uuid,
-                      (note) {vm.addNote(note);}
-                    );
-                  });
-            },
-          )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AddNoteDialog(
+                    widget.subjectInfo.uuid,
+                        (note) {vm.addNote(note);}
+                );
+              });
+        },
+        backgroundColor: MyColor.emphasizeColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       body: Container(
         // padding: const EdgeInsets.only(bottom: MyDimension.mainPadding),

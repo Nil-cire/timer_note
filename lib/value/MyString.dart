@@ -21,4 +21,6 @@ class MyString {
   static const addNoteMinuteHint = "Minute";
   static const addNoteSecondHint = "Second";
   static const addNoteMillisecondHint = "Milli-sec";
+  static const create = "CREATE";
+
 }
