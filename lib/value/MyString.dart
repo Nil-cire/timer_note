@@ -12,7 +12,7 @@ class MyString {
   static const enterSubjectTitleError = "Please enter title";
 
   // note list page
-  static const noNote = "You don't have any note yet, Press + to add one";
+  static const noNote = "You don't have any note yet. Press + to add one";
   static const addNoteTitle = "Create note";
   static const addNoteTitleHint = "Title";
   static const addNoteTitleError = "Please enter title";
